@@ -59,9 +59,17 @@ class ApiRequests:
         }
 
         response = None
-        if method == "GET":    
-            response = requests.get(url, headers=headers)
-        elif method == "POST":
-            response = requests.post(url, headers=headers, json=payload)
+
+        try:
+            if method == "GET":
+                response = requests.get(url, headers=headers)
+            elif method == "POST":
+                response = requests.post(url, headers=headers, json=payload)
+        except OSError as err:
+            print("OS error:", err)
+        except Exception as err:
+            print(f"Unexpected {err=}, {type(err)=}")
+            raise       
 
         return response
+
